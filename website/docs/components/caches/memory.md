@@ -46,7 +46,6 @@ label: ""
 memory:
   ttl: 300
   compaction_interval: 60s
-  compaction_on_read: false
   shards: 1
   init_values: {}
 ```
@@ -54,10 +53,9 @@ memory:
 </TabItem>
 </Tabs>
 
-A compaction only occurs during a write where the time since the last compaction
-is above the compaction interval. It is therefore possible to obtain values of
-keys that have expired between compactions. If `compaction_on_read`is
-set, compaction will also happen on read events.
+The compaction interval determines how often the cache is cleared of expired
+items, and this process is only triggered on writes to the cache. Access to the
+cache is blocked during this process.
 
 The field `init_values` can be used to prepopulate the memory cache
 with any number of key/value pairs which are exempt from TTLs:
@@ -89,14 +87,6 @@ The period of time to wait before each compaction, at which point expired items 
 
 Type: `string`  
 Default: `"60s"`  
-
-### `compaction_on_read`
-
-Whether compaction should occur on read events.
-
-
-Type: `bool`  
-Default: `false`  
 
 ### `shards`
 
